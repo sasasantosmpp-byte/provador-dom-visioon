@@ -41,12 +41,12 @@ export class Smoother {
   reset(){ this.s=null; }
 }
 // Desenha a armação real sobre o rosto (mirror = pré-visualização espelhada da câmera frontal)
-export function drawGlasses(ctx, img, p, g, mirror, W){
+export function drawGlasses(ctx, img, p, g, mirror, W, adj={scale:1,dx:0,dy:0,rot:0}){
   if(!p || !img) return;
-  const w = p.width*g.fit, h = w*img.height/img.width, sx = Math.max(.72, 1-Math.abs(p.yaw)*.9);
+  const w = p.width*g.fit*adj.scale, h = w*img.height/img.width, sx = Math.max(.72, 1-Math.abs(p.yaw)*.9);
   ctx.save();
-  ctx.translate(mirror ? W-p.cx : p.cx, p.cy + g.dy*w);
-  ctx.rotate(mirror ? -p.angle : p.angle); ctx.scale(sx,1);
+  ctx.translate((mirror ? W-p.cx : p.cx) + adj.dx*w, p.cy + (g.dy+adj.dy)*w);
+  ctx.rotate((mirror ? -p.angle : p.angle) + adj.rot*Math.PI/180); ctx.scale(sx,1);
   ctx.drawImage(img, -w/2, -h/2, w, h);
   ctx.restore();
 }

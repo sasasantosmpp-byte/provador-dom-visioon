@@ -8,6 +8,7 @@ const cv = $('#cv'), ctx = cv.getContext('2d'), vid = $('#vid');
 const S = { idx:0, mode:null, run:0, sm:new Smoother(), lost:0, selfie:null, blob:null, tracker:false, seen:false };
 const imgs = {}, load = src => imgs[src] ??= new Promise((ok,ko)=>{ const i=new Image(); i.onload=()=>ok(i); i.onerror=ko; i.src=src; });
 const cur = () => glasses[S.idx];
+S.adj = {}; const adj = () => S.adj[cur().id] ??= { scale:1, dx:0, dy:0, rot:0 };
 const say = t => { const b=$('#bubble'); b.textContent=t; b.classList.add('show'); clearTimeout(say.t); say.t=setTimeout(()=>b.classList.remove('show'),3800); };
 const hint = t => $('#hint').textContent = t || '';
 
@@ -51,18 +52,18 @@ async function loop(run){
       if(p&&!S.seen){ S.seen=true; say('Uau! Ficou demais!'); }
       hint(S.pose ? '' : 'Coloque seu rosto na tela 🙂');
     }
-    if(S.pose) drawGlasses(ctx, await load(cur().image), S.pose, cur(), true, W);
+    if(S.pose) drawGlasses(ctx, await load(cur().image), S.pose, cur(), true, W, adj());
   }
   requestAnimationFrame(()=>loop(run));
 }
-async function renderStatic(){
+async function renderStatic(redetect=true){
   const s=S.selfie; cv.width=s.width; cv.height=s.height; ctx.drawImage(s,0,0);
-  S.pose=null; try{ await loadTracker(); S.pose=await detectImage(s); }catch(e){}
-  if(S.pose) drawGlasses(ctx, await load(cur().image), S.pose, cur(), false, s.width);
+  if(redetect){ S.pose=null; try{ await loadTracker(); S.pose=await detectImage(s); }catch(e){} }
+  if(S.pose) drawGlasses(ctx, await load(cur().image), S.pose, cur(), false, s.width, adj());
   hint(S.pose ? '' : 'Não achei um rosto nessa foto. Tente outra selfie.');
 }
-function change(i){ S.idx=(i+glasses.length)%glasses.length; updateChip(); load(cur().image); S.sm.reset();
-  if(S.mode==='image') renderStatic(); say(['Quer experimentar outra?','Uau! Ficou demais!','Será que essa é a sua?'][Math.floor(Math.random()*3)]); }
+function change(i){ S.idx=(i+glasses.length)%glasses.length; syncSliders(); updateChip(); load(cur().image); S.sm.reset();
+  if(S.mode==='image') renderStatic(false); say(['Quer experimentar outra?','Uau! Ficou demais!','Será que essa é a sua?'][Math.floor(Math.random()*3)]); }
 $('#prev').onclick=()=>change(S.idx-1); $('#next').onclick=()=>change(S.idx+1);
 $('#back-try').onclick=()=>go('s-pick'); $('#retry').onclick=enterTry;
 $('#list-btn').onclick=()=>{ fillGrid($('#sheet-grid'), i=>{ $('#sheet').classList.add('hidden'); change(i); }); $('#sheet').classList.remove('hidden'); };
@@ -77,6 +78,7 @@ $('#file').onchange=async e=>{ const f=e.target.files[0]; if(!f) return;
 
 /* foto + resultado */
 $('#shoot').onclick=async ()=>{
+  $('#adj').classList.add('hidden');
   if(!cv.width || (S.mode==='video' && !S.pose && !confirm('Não estou vendo seu rosto. Tirar a foto mesmo assim?'))) return;
   const snap=document.createElement('canvas'); snap.width=cv.width; snap.height=cv.height; snap.getContext('2d').drawImage(cv,0,0);
   const [mascot,logo]=await Promise.all([load('assets/mascote.png'), load('assets/logo.png')]);
@@ -91,3 +93,11 @@ $('#save').onclick=()=>{ const a=document.createElement('a'); a.href=URL.createO
 $('#share').onclick=async ()=>{ try{ await navigator.share({ files:[file()], title:'Eu escolhi meu óculos!', text:'Dia das Crianças 2026 • Dom Visioon' }); }catch(e){} };
 if(!(navigator.canShare && navigator.canShare({files:[new File([''],'a.png',{type:'image/png'})]}))) $('#share').classList.add('hidden');
 $('#again').onclick=()=>{ S.mode==='image' ? (go('s-try'), renderStatic()) : enterTry(); };
+
+/* ajuste manual da armação */
+const sl = {scale:$('#a-scale'), dx:$('#a-dx'), dy:$('#a-dy'), rot:$('#a-rot')};
+const syncSliders = () => { const o=adj(); for(const k in sl) sl[k].value=o[k]; };
+for(const k in sl) sl[k].oninput = () => { adj()[k] = +sl[k].value; if(S.mode==='image') renderStatic(false); };
+$('#adj-btn').onclick = () => { syncSliders(); $('#adj').classList.toggle('hidden'); };
+$('#a-ok').onclick = () => $('#adj').classList.add('hidden');
+$('#a-reset').onclick = () => { S.adj[cur().id] = { scale:1, dx:0, dy:0, rot:0 }; syncSliders(); if(S.mode==='image') renderStatic(false); };

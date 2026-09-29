@@ -64,6 +64,14 @@
     </div>
     <button class="btn primary" id="shoot">📸 TIRAR FOTO</button>
   </footer>
+  <button class="btn ghost sm adj-btn" id="adj-btn">🎚️ AJUSTAR</button>
+  <div id="adj" class="adj hidden">
+    <label>Tamanho <input type="range" id="a-scale" min="0.6" max="1.5" step="0.01" value="1"></label>
+    <label>Subir / descer <input type="range" id="a-dy" min="-0.3" max="0.3" step="0.005" value="0"></label>
+    <label>Esquerda / direita <input type="range" id="a-dx" min="-0.3" max="0.3" step="0.005" value="0"></label>
+    <label>Inclinação <input type="range" id="a-rot" min="-25" max="25" step="0.5" value="0"></label>
+    <div class="row"><button class="btn ghost sm" id="a-reset">RESETAR</button><button class="btn primary sm" id="a-ok" style="min-width:0">PRONTO</button></div>
+  </div>
   <div id="sheet" class="sheet hidden"><div class="sheet-in"><h3>Todas as armações</h3><div id="sheet-grid" class="grid"></div>
     <button class="btn ghost" id="sheet-close">FECHAR</button></div></div>
   <input id="file" type="file" accept="image/*" hidden>
