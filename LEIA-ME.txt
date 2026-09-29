@@ -1,0 +1,7 @@
+QUAL ÓCULOS COMBINA COMIGO? — Dom Visioon (Dia das Crianças 2026)
+PUBLICAR (precisa de HTTPS para a câmera funcionar): arraste a pasta inteira em netlify.com/drop, ou use Vercel / GitHub Pages / Cloudflare Pages.
+NÃO abra o index.html com duplo clique: o navegador bloqueia a câmera e os módulos.
+NOVA ARMAÇÃO: coloque o PNG (fundo transparente, recortado rente à armação) em assets/frames/ e adicione uma linha em js/catalog.js.
+AJUSTE FINO: em js/catalog.js, "fit" muda o tamanho da armação no rosto (1.0 = padrão) e "dy" sobe/desce (ex.: 0.03).
+MODELO FACIAL: carregado do servidor do Google (storage.googleapis.com). Para funcionar sem depender dele, salve o arquivo face_landmarker.task em assets/models/.
+Estrutura: index.html | css/ | js/ (catalog, camera, face, compose, app) | assets/ | vendor/ (MediaPipe)
