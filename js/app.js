@@ -1,7 +1,7 @@
-import { glasses, PRICE_PREFIX, WHATSAPP, money } from './catalog.js';
-import { startCamera, stopCamera, cameraSupported } from './camera.js';
-import { loadTracker, detectVideo, detectImage, Smoother, drawGlasses } from './face.js';
-import { composeFinal } from './compose.js';
+import { glasses, PRICE_PREFIX, WHATSAPP, money } from './catalog.js?v=5';
+import { startCamera, stopCamera, cameraSupported } from './camera.js?v=5';
+import { loadTracker, detectVideo, detectImage, Smoother, drawGlasses } from './face.js?v=5';
+import { composeFinal } from './compose.js?v=5';
 
 const $ = s => document.querySelector(s);
 const cv = $('#cv'), ctx = cv.getContext('2d'), vid = $('#vid');
