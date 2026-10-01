@@ -21,11 +21,9 @@ export async function composeFinal({ photo, mascot, logo, glasses }){
   c.save(); c.shadowColor='rgba(0,0,0,.55)'; c.shadowBlur=30; c.shadowOffsetY=12;
   c.drawImage(mascot, W-mw-40, py+ph-mh+250, mw, mh); c.restore();
   // textos
-  c.textAlign='left'; c.fillStyle='#f6efe2'; c.font='900 84px Fraunces, Georgia, serif';
-  c.fillText('EU ESCOLHI', 70, 1610); c.fillText('MEU ÓCULOS! 👓', 70, 1700);
-  c.fillStyle='#c9a24a'; c.font='700 44px Figtree, Arial, sans-serif'; c.fillText('Dia das Crianças 2026', 74, 1770);
-  c.fillStyle='#f6efe2'; c.font='600 36px Figtree, Arial, sans-serif';
-  c.fillText('Armações infantis a partir de R$ 55', 74, 1826);
-  if(glasses){ c.fillStyle='rgba(246,239,226,.6)'; c.font='600 30px Figtree, Arial, sans-serif'; c.fillText('Modelo '+glasses.id, 74, 1872); }
+  c.textAlign='left'; c.fillStyle='#f6efe2'; c.font='900 76px Fraunces, Georgia, serif';
+  c.fillText('EU ESCOLHO', 70, 1620); c.fillText('A DOM VISIOON', 70, 1715);
+  c.fillStyle='#c9a24a'; c.font='700 44px Figtree, Arial, sans-serif'; c.fillText('Dia das Crianças 2026', 74, 1790);
+  if(glasses){ c.fillStyle='rgba(246,239,226,.6)'; c.font='600 30px Figtree, Arial, sans-serif'; c.fillText('Modelo '+glasses.id, 74, 1850); }
   return await new Promise(r=>cv.toBlob(r,'image/png'));
 }

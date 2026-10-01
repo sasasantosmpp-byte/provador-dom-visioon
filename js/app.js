@@ -1,7 +1,7 @@
-import { glasses, PRICE_PREFIX, WHATSAPP, money } from './catalog.js?v=5';
-import { startCamera, stopCamera, cameraSupported } from './camera.js?v=5';
-import { loadTracker, detectVideo, detectImage, Smoother, drawGlasses } from './face.js?v=5';
-import { composeFinal } from './compose.js?v=5';
+import { glasses, PRICE_PREFIX, WHATSAPP, money } from './catalog.js?v=6';
+import { startCamera, stopCamera, cameraSupported } from './camera.js?v=6';
+import { loadTracker, detectVideo, detectImage, Smoother, drawGlasses } from './face.js?v=6';
+import { composeFinal } from './compose.js?v=6';
 
 const $ = s => document.querySelector(s);
 const cv = $('#cv'), ctx = cv.getContext('2d'), vid = $('#vid');
@@ -39,7 +39,7 @@ function denied(){ $('#perm').classList.remove('hidden'); }
 async function startTracker(){
   try{ await loadTracker(); S.tracker=true; }catch(e){ hint('Não consegui carregar o rastreamento. Verifique sua internet.'); }
 }
-function updateChip(){ const g=cur(); $('#chip').textContent=`${g.id} • ${g.color} • ${priceTxt(g)}`; }
+function updateChip(){ const g=cur(); $('#chip').textContent=`${g.id} • ${g.color}`; }
 let lastT=-1;
 async function loop(run){
   if(run!==S.run || S.mode!=='video') return;
