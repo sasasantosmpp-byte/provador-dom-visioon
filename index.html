@@ -7,7 +7,7 @@
 <title>Qual óculos combina comigo? • Dom Visioon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Figtree:wght@500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=7">
+<link rel="stylesheet" href="css/style.css?v=8">
 </head>
 <body>
 <!-- 1 ABERTURA -->
@@ -35,7 +35,7 @@
 
 <!-- 3 ESCOLHA -->
 <section id="s-pick" class="screen">
-  <header class="bar"><button class="btn ghost sm" data-go="s-how">← VOLTAR</button></header>
+  <header class="bar"><button class="btn ghost sm" data-go="s-how">← VOLTAR</button><button class="btn ghost sm" id="pick-gallery">🖼️ FOTO DA GALERIA</button></header>
   <h2>ESCOLHA SUA ARMAÇÃO 👓</h2>
   <p class="txt small">Armação infantil • <span id="pick-price"></span></p>
   <div id="grid" class="grid"></div>
@@ -65,6 +65,7 @@
     <button class="btn primary" id="shoot">📸 TIRAR FOTO</button>
   </footer>
   <button class="btn ghost sm adj-btn" id="adj-btn">🎚️ AJUSTAR</button>
+  <button class="btn ghost sm gal-btn" id="gal-btn">🖼️ GALERIA</button>
   <div id="adj" class="adj hidden">
     <label>Tamanho <input type="range" id="a-scale" min="0.6" max="1.5" step="0.01" value="1"></label>
     <label>Subir / descer <input type="range" id="a-dy" min="-0.3" max="0.3" step="0.005" value="0"></label>
@@ -88,5 +89,5 @@
   </div>
   <p class="txt small">Dica: se a foto não salvar, toque e segure na imagem.</p>
 </section>
-<script type="module" src="js/app.js?v=7"></script>
+<script type="module" src="js/app.js?v=8"></script>
 </body></html>

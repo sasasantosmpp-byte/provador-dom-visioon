@@ -1,7 +1,7 @@
-import { glasses, PRICE_PREFIX, WHATSAPP, money } from './catalog.js?v=7';
-import { startCamera, stopCamera, cameraSupported } from './camera.js?v=7';
-import { loadTracker, detectVideo, detectImage, Smoother, drawGlasses } from './face.js?v=7';
-import { composeFinal } from './compose.js?v=7';
+import { glasses, PRICE_PREFIX, WHATSAPP, money } from './catalog.js?v=8';
+import { startCamera, stopCamera, cameraSupported } from './camera.js?v=8';
+import { loadTracker, detectVideo, detectImage, Smoother, drawGlasses } from './face.js?v=8';
+import { composeFinal } from './compose.js?v=8';
 
 const $ = s => document.querySelector(s);
 const cv = $('#cv'), ctx = cv.getContext('2d'), vid = $('#vid');
@@ -33,7 +33,7 @@ async function enterTry(){
   await load(cur().image);
   if(!cameraSupported()) return denied();
   try{ await startCamera(vid); }catch(e){ return denied(); }
-  S.mode='video'; const run=++S.run; hint('Procurando seu rostinho…'); startTracker(); loop(run); say('Será que essa é a sua?');
+  S.mode='video'; setGal(); const run=++S.run; hint('Procurando seu rostinho…'); startTracker(); loop(run); say('Será que essa é a sua?');
 }
 function denied(){ $('#perm').classList.remove('hidden'); }
 async function startTracker(){
@@ -71,10 +71,14 @@ $('#sheet-close').onclick=()=>$('#sheet').classList.add('hidden');
 
 /* selfie */
 $('#selfie-btn').onclick=()=>$('#file').click();
+$('#pick-gallery').onclick=()=>$('#file').click();
+const setGal=()=>{ $('#gal-btn').textContent = S.mode==='image' ? '📷 CÂMERA' : '🖼️ GALERIA'; };
+$('#gal-btn').onclick=()=>{ S.mode==='image' ? enterTry() : $('#file').click(); };
 $('#file').onchange=async e=>{ const f=e.target.files[0]; if(!f) return;
   const bmp=await createImageBitmap(f,{imageOrientation:'from-image'}); const k=Math.min(1,1600/Math.max(bmp.width,bmp.height));
   const c=document.createElement('canvas'); c.width=Math.round(bmp.width*k); c.height=Math.round(bmp.height*k); c.getContext('2d').drawImage(bmp,0,0,c.width,c.height);
-  S.selfie=c; S.mode='image'; S.run++; stopCamera(); $('#perm').classList.add('hidden'); e.target.value=''; await renderStatic(); };
+  go('s-try'); S.selfie=c; S.mode='image'; S.run++; stopCamera(); S.sm.reset(); updateChip(); setGal();
+  $('#perm').classList.add('hidden'); e.target.value=''; await load(cur().image); await renderStatic(); };
 
 /* foto + resultado */
 $('#shoot').onclick=async ()=>{

@@ -62,3 +62,5 @@ background:linear-gradient(0deg,#000d,#0000);z-index:3}.row{display:flex;gap:8px
 .adj label{display:grid;gap:4px;font-weight:700;font-size:13px}
 .adj input[type=range]{width:100%;accent-color:#c9a24a;height:28px}
 .adj{grid-template-columns:1fr 1fr;gap:6px 14px;padding:10px 14px}.adj .row{grid-column:1/-1}.adj label{font-size:12px;gap:0}.adj input[type=range]{height:22px}
+
+.gal-btn{position:absolute;left:132px;bottom:calc(158px + env(safe-area-inset-bottom));z-index:4}
